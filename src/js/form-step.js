@@ -39,6 +39,20 @@ function validateCpf(cpf) {
   let rest;
   let i;
   let result = false;
+  if (
+      cpf.length === 11 &&
+      cpf === "00000000000" ||
+      cpf === "11111111111" ||
+      cpf === "22222222222" ||
+      cpf === "33333333333" ||
+      cpf === "44444444444" ||
+      cpf === "55555555555" ||
+      cpf === "66666666666" ||
+      cpf === "77777777777" ||
+      cpf === "88888888888" ||
+      cpf === "99999999999") {
+    return false;
+  }
   if (cpf.length === 11) {
       sum = 0;
       for (i = 0; i < 9; i++) {
@@ -66,13 +80,26 @@ function validateCpf(cpf) {
 
 }
 
-
 function validateCnpj(cnpj) {
   cnpj = cnpj.replace(/[^\d]+/g,'');
   let sum;
   let rest;
   let i;
   let result = false;
+  if (
+    cnpj.length !== 14 ||
+    cnpj === "00000000000000" ||
+    cnpj === "11111111111111" ||
+    cnpj === "22222222222222" ||
+    cnpj === "33333333333333" ||
+    cnpj === "44444444444444" ||
+    cnpj === "55555555555555" ||
+    cnpj === "66666666666666" ||
+    cnpj === "77777777777777" ||
+    cnpj === "88888888888888" ||
+    cnpj === "99999999999999") {
+    return false;
+  }
   if (cnpj.length === 14) {
       sum = 0;
       for (i = 0; i < 12; i++) {
@@ -216,7 +243,7 @@ function changeStep(btn) {
     else if (index === 2){
       if (cnpj.value === "" || insc_stad.value === "" || cepCnpj.value === "" || enderecoCnpj.value === "" || cityCnpj.value === "" || stateCnpj.value === ""){
         errorGenerator("Preencha todos os campos");
-      } else if (cnpj.value.replace(/[^\d]+/g, '').length !== 14){
+      } else if (validateCnpj(cnpj.value) === false){
         errorGenerator("CNPJ inválido");
       } else{
         fetch(`${base_url}/php/tools/check_cnpj.php`, {
