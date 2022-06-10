@@ -385,6 +385,22 @@ sendCode.addEventListener("click", () => {
   }
   else{
     errorReset();
+    sendCode.disabled  = true;
+    sendCode.innerHTML = "Reenviar SMS 00:10";
+    let interval = setInterval(function() {
+      let time = parseInt(sendCode.innerHTML.replace(/[^0-9]/g, ''));
+      if(time <= 1) {
+        clearInterval(interval);
+        sendCode.disabled  = false;
+        sendCode.innerHTML = "Reenviar SMS";
+      } else {
+        sendCode.innerHTML = "Reenviar SMS 00:0" + (time - 1) + "s";
+      }
+    }, 1000);
+    setTimeout(function(){
+      sendCode.disabled  = false;
+      sendCode.innerHTML = "Reenviar SMS";
+    }, 10000);
     fetch(`${base_url}/php/tools/send_code.php`, {
       method: "POST",
       body: JSON.stringify({
