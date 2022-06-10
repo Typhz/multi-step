@@ -456,9 +456,15 @@ function getStreet(cep) {
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    street.value = data.logradouro;
-    city.value = data.localidade;
-    state.value = data.uf;
+    if(data.erro){
+      null
+    }
+    else{
+      street.value = data.logradouro;
+      city.value = data.localidade;
+      state.value = data.uf;
+    }
+
   })
   .catch(error => console.log(error));
 }
@@ -476,9 +482,13 @@ function getStreetCnpj(cep) {
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    enderecoCnpj.value = data.logradouro;
-    cityCnpj.value = data.localidade;
-    stateCnpj.value = data.uf;
+    if(data.erro){
+      null
+    }else{
+      enderecoCnpj.value = data.logradouro;
+      cityCnpj.value = data.localidade;
+      stateCnpj.value = data.uf;
+    }
   })
   .catch(error => console.log(error));
 }
