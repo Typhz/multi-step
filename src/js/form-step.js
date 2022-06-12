@@ -13,7 +13,7 @@ const terms = document.querySelector("[name=terms]");
 const cpf = document.querySelector("[name=cpf]");
 const dataNasc = document.querySelector("[name=data_nasc]");
 const cep = document.querySelector("[name=cep]");
-const endereco = document.querySelector("[name=street]");
+const street = document.querySelector("[name=street]");
 const city = document.querySelector("[name=city]");
 const state = document.querySelector("[name=state]");
 
@@ -21,7 +21,7 @@ const state = document.querySelector("[name=state]");
 const cnpj = document.querySelector("[name=cnpj]");
 const insc_stad = document.querySelector("[name=insc_stad]");
 const cepCnpj = document.querySelector("[name=cep_cnpj]");
-const enderecoCnpj = document.querySelector("[name=street_cnpj]");
+const streetCnpj = document.querySelector("[name=street_cnpj]");
 const cityCnpj = document.querySelector("[name=city_cnpj]");
 const stateCnpj = document.querySelector("[name=state_cnpj]");
 
@@ -214,7 +214,7 @@ function changeStep(btn) {
       }
     }
     else if (index === 1){
-      if (cpf.value === "" || dataNasc.value === "" || cep.value === "" || endereco.value === "" || city.value === "" || state.value === ""){
+      if (cpf.value === "" || dataNasc.value === "" || cep.value === "" || street.value === "" || city.value === "" || state.value === ""){
         errorGenerator("Preencha todos os campos");
       } else if (validateCpf(cpf.value) === false){
         errorGenerator("CPF inválido");
@@ -241,7 +241,7 @@ function changeStep(btn) {
       }
     }
     else if (index === 2){
-      if (cnpj.value === "" || insc_stad.value === "" || cepCnpj.value === "" || enderecoCnpj.value === "" || cityCnpj.value === "" || stateCnpj.value === ""){
+      if (cnpj.value === "" || insc_stad.value === "" || cepCnpj.value === "" || streetCnpj.value === "" || cityCnpj.value === "" || stateCnpj.value === ""){
         errorGenerator("Preencha todos os campos");
       } else if (validateCnpj(cnpj.value) === false){
         errorGenerator("CNPJ inválido");
@@ -284,19 +284,19 @@ function changeStep(btn) {
           fetch(`${base_url}/php/controller/register_cpf.php`, {
             method: "POST",
             body: JSON.stringify({
-              name: inputs[0].value,
-              email: inputs[1].value,
-              password: inputs[2].value,
-              confirm_password: inputs[3].value,
-              cpf: inputs[7].value,
-              data_nasc: inputs[8].value,
-              cep: inputs[9].value.replace(/[^\d]+/g, ''),
-              street: inputs[10].value,
-              city: inputs[11].value,
-              state: inputs[12].value,
-              tel: inputs[19].value.replace(/[^\d]+/g, ''),
-              cel: inputs[20].value.replace(/[^\d]+/g, ''), 
-              code: inputs[21].value,
+              name: name.value,
+              email: email.value,
+              password: password.value,
+              confirm_password: confirmPassword.value,
+              cpf: cpf.value,
+              data_nasc: dataNasc.value,
+              cep: cep.value.replace(/[^\d]+/g, ''),
+              street: street.value,
+              city: city.value,
+              state: state.value,
+              tel: telFixo.value.replace(/[^\d]+/g, ''),
+              cel: telCel.value.replace(/[^\d]+/g, ''), 
+              code: code.value,
             })
           })
           .then(response => response.json(response))
@@ -316,19 +316,19 @@ function changeStep(btn) {
           fetch(`${base_url}/php/controller/register_cnpj.php`, {
             method: "POST",
             body: JSON.stringify({
-              name: inputs[0].value,
-              email: inputs[1].value,
-              password: inputs[2].value,
-              confirm_password: inputs[3].value,
-              cnpj: inputs[13].value.replace(/[^\d]+/g, ''),
-              insc_stad: inputs[14].value.replace(/[^\d]+/g, ''),
-              cep_cnpj: inputs[15].value.replace(/[^\d]+/g, ''),
-              street_cnpj: inputs[16].value,
-              city_cnpj: inputs[17].value,
-              state_cnpj: inputs[18].value,
-              tel: inputs[19].value.replace(/[^\d]+/g, ''),
-              cel: inputs[20].value.replace(/[^\d]+/g, ''), 
-              code: inputs[21].value,
+              name: name.value,
+              email: email.value,
+              password: password.value,
+              confirm_password: confirmPassword.value,
+              cnpj: cnpj.value.replace(/[^\d]+/g, ''),
+              insc_stad: insc_stad.value.replace(/[^\d]+/g, ''),
+              cep_cnpj: cepCnpj.value.replace(/[^\d]+/g, ''),
+              street_cnpj: streetCnpj.value,
+              city_cnpj: cityCnpj.value,
+              state_cnpj: stateCnpj.value,
+              tel: telFixo.value.replace(/[^\d]+/g, ''),
+              cel: telCel.value.replace(/[^\d]+/g, ''), 
+              code: code.value,
             })
           })
           .then(response => response.json(response))
@@ -501,7 +501,7 @@ function getStreetCnpj(cep) {
     if(data.erro){
       null
     }else{
-      enderecoCnpj.value = data.logradouro;
+      streetCnpj.value = data.logradouro;
       cityCnpj.value = data.localidade;
       stateCnpj.value = data.uf;
     }
