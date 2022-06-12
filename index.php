@@ -60,6 +60,7 @@
               <input 
                 class="input-field" 
                 type="password" 
+                autocomplete="new-password"
                 placeholder="********" 
                 id="password" 
                 name="password" 
@@ -78,6 +79,7 @@
               <input 
                 class="input-field" 
                 type="password" 
+                autocomplete="new-password"
                 placeholder="********" 
                 id="confirm_password" 
                 name="confirm_password" 
