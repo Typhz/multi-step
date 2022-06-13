@@ -11,14 +11,14 @@
   if(!empty($data -> cel)){
     $userNumber = $data -> cel;
     $userNumber = str_replace(array('(', ')', ' ', '-'), '', $userNumber);
-    $sid = 'ACd1222d52917b79c4a109a3d622012054';
-    $token = '71fa19e497d1cdc14483074c198b0de9';
+    $sid = '';
+    $token = '';
     $code = rand(1000, 9999);
     $client = new Client($sid, $token);
     $client->messages->create(
       '+55' . $userNumber,
       array(
-        'from' => "+19034947952",
+        'from' => "",
         'body' => "Seu código de verificação é: ".$code
       )
     );

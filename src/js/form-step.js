@@ -4,6 +4,7 @@ const prevBtn = document.querySelectorAll("form .previous-btn");
 const form = document.querySelector("#form_step");
 
 const name = document.querySelector("[name=name]");
+const nickname = document.querySelector("[name=nickname]");
 const email = document.querySelector("[name=email]");
 const password = document.querySelector("[name=password]");
 const confirmPassword = document.querySelector("[name=confirm_password]");
@@ -14,6 +15,7 @@ const cpf = document.querySelector("[name=cpf]");
 const dataNasc = document.querySelector("[name=data_nasc]");
 const cep = document.querySelector("[name=cep]");
 const street = document.querySelector("[name=street]");
+const streetNumber = document.querySelector("[name=street_number]");
 const city = document.querySelector("[name=city]");
 const state = document.querySelector("[name=state]");
 
@@ -22,6 +24,7 @@ const cnpj = document.querySelector("[name=cnpj]");
 const insc_stad = document.querySelector("[name=insc_stad]");
 const cepCnpj = document.querySelector("[name=cep_cnpj]");
 const streetCnpj = document.querySelector("[name=street_cnpj]");
+const streetNumberCnpj = document.querySelector("[name=street_number_cnpj]");
 const cityCnpj = document.querySelector("[name=city_cnpj]");
 const stateCnpj = document.querySelector("[name=state_cnpj]");
 
@@ -82,48 +85,54 @@ function validateCpf(cpf) {
 
 function validateCnpj(cnpj) {
   cnpj = cnpj.replace(/[^\d]+/g,'');
-  let sum;
-  let rest;
-  let i;
-  let result = false;
-  if (
-    cnpj.length !== 14 ||
-    cnpj === "00000000000000" ||
-    cnpj === "11111111111111" ||
-    cnpj === "22222222222222" ||
-    cnpj === "33333333333333" ||
-    cnpj === "44444444444444" ||
-    cnpj === "55555555555555" ||
-    cnpj === "66666666666666" ||
-    cnpj === "77777777777777" ||
-    cnpj === "88888888888888" ||
-    cnpj === "99999999999999") {
-    return false;
+
+  if(cnpj == '') return false;
+   
+  if (cnpj.length != 14)
+      return false;
+
+  // Elimina CNPJs invalidos conhecidos
+  if (cnpj == "00000000000000" || 
+      cnpj == "11111111111111" || 
+      cnpj == "22222222222222" || 
+      cnpj == "33333333333333" || 
+      cnpj == "44444444444444" || 
+      cnpj == "55555555555555" || 
+      cnpj == "66666666666666" || 
+      cnpj == "77777777777777" || 
+      cnpj == "88888888888888" || 
+      cnpj == "99999999999999")
+      return false;
+       
+  // Valida DVs
+  tamanho = cnpj.length - 2
+  numeros = cnpj.substring(0,tamanho);
+  digitos = cnpj.substring(tamanho);
+  soma = 0;
+  pos = tamanho - 7;
+  for (i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--;
+    if (pos < 2)
+          pos = 9;
   }
-  if (cnpj.length === 14) {
-      sum = 0;
-      for (i = 0; i < 12; i++) {
-          sum += parseInt(cnpj.charAt(i)) * (13 - i);
-      }
-      rest = 11 - (sum % 11);
-      if (rest === 10 || rest === 11) {
-          rest = 0;
-      }
-      if (rest === parseInt(cnpj.charAt(12))) {
-          sum = 0;
-          for (i = 0; i < 13; i++) {
-              sum += parseInt(cnpj.charAt(i)) * (14 - i);
-          }
-          rest = 11 - (sum % 11);
-          if (rest === 10 || rest === 11) {
-              rest = 0;
-          }
-          if (rest === parseInt(cnpj.charAt(13))) {
-              result = true;
-          }
-      }
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(0))
+      return false;
+       
+  tamanho = tamanho + 1;
+  numeros = cnpj.substring(0,tamanho);
+  soma = 0;
+  pos = tamanho - 7;
+  for (i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--;
+    if (pos < 2)
+          pos = 9;
   }
-  return result;
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(1))
+        return false;
+         
+  return true;
 }
 
 
@@ -166,7 +175,7 @@ function changeStep(btn) {
   steps[index].classList.remove("active");
   if (btn === "next") {
     if (index === 0){
-      if (name.value === "" || email.value === "" || password.value === "" || confirmPassword.value === "" || getUserType() === "" || terms.checked === false){
+      if (name.value === "" || nickname.value === "" || email.value === "" || password.value === "" || confirmPassword.value === "" || getUserType() === "" || terms.checked === false){
         errorGenerator("Preencha todos os campos");
       } else if (password.value.length < 6){
         errorGenerator("Senha deve ter no mínimo 6 caracteres");
@@ -214,7 +223,7 @@ function changeStep(btn) {
       }
     }
     else if (index === 1){
-      if (cpf.value === "" || dataNasc.value === "" || cep.value === "" || street.value === "" || city.value === "" || state.value === ""){
+      if (cpf.value === "" || dataNasc.value === "" || cep.value === "" || street.value === "" || streetNumber.value === "" || city.value === "" || state.value === ""){
         errorGenerator("Preencha todos os campos");
       } else if (validateCpf(cpf.value) === false){
         errorGenerator("CPF inválido");
@@ -241,7 +250,7 @@ function changeStep(btn) {
       }
     }
     else if (index === 2){
-      if (cnpj.value === "" || insc_stad.value === "" || cepCnpj.value === "" || streetCnpj.value === "" || cityCnpj.value === "" || stateCnpj.value === ""){
+      if (cnpj.value === "" || insc_stad.value === "" || cepCnpj.value === "" || streetCnpj.value === "" || streetNumberCnpj.value === "" || cityCnpj.value === "" || stateCnpj.value === ""){
         errorGenerator("Preencha todos os campos");
       } else if (validateCnpj(cnpj.value) === false){
         errorGenerator("CNPJ inválido");
@@ -279,12 +288,12 @@ function changeStep(btn) {
           const { name, value, checked } = input;
           inputs.push({ name, value, checked });
         });
-        console.log(inputs);
         if (getUserType() === "pessoa_fisica"){
           fetch(`${base_url}/php/controller/register_cpf.php`, {
             method: "POST",
             body: JSON.stringify({
               name: name.value,
+              nickname: nickname.value,
               email: email.value,
               password: password.value,
               confirm_password: confirmPassword.value,
@@ -292,6 +301,7 @@ function changeStep(btn) {
               data_nasc: dataNasc.value,
               cep: cep.value.replace(/[^\d]+/g, ''),
               street: street.value,
+              street_number: streetNumber.value,
               city: city.value,
               state: state.value,
               tel: telFixo.value.replace(/[^\d]+/g, ''),
@@ -317,6 +327,7 @@ function changeStep(btn) {
             method: "POST",
             body: JSON.stringify({
               name: name.value,
+              nickname: nickname.value,
               email: email.value,
               password: password.value,
               confirm_password: confirmPassword.value,
@@ -324,6 +335,7 @@ function changeStep(btn) {
               insc_stad: insc_stad.value.replace(/[^\d]+/g, ''),
               cep_cnpj: cepCnpj.value.replace(/[^\d]+/g, ''),
               street_cnpj: streetCnpj.value,
+              street_number_cnpj: streetNumberCnpj.value,
               city_cnpj: cityCnpj.value,
               state_cnpj: stateCnpj.value,
               tel: telFixo.value.replace(/[^\d]+/g, ''),
@@ -449,7 +461,7 @@ let maskCNPJ = IMask(cnpj, {
 });
 
 let maskStad = IMask(insc_stad, {
-  mask: '00.000.0000-0',
+  mask: '000.000.000.000',
 });
 
 let maskTel = IMask(telFixo, {
@@ -462,6 +474,14 @@ let maskCel = IMask(telCel, {
 });
 
 let maskCode = IMask(code, {
+  mask: '0000',
+});
+
+let maskNumberStreet = IMask(streetNumber, {
+  mask: '0000',
+});
+
+let maskNumberStreetCnpj = IMask(streetNumberCnpj, {
   mask: '0000',
 });
 

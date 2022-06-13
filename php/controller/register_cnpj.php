@@ -6,6 +6,7 @@
   
   $data = json_decode(file_get_contents("php://input"));
   $name = @$data -> name;
+  $nickname = @$data -> nickname;
   $email = @$data -> email;
   $password = @$data -> password;
   $confirm_password = @$data -> confirm_password;
@@ -14,13 +15,14 @@
   $insc_stad = @$data -> insc_stad;
   $cep = @$data -> cep_cnpj;
   $street = @$data -> street_cnpj;
+  $street_number = @$data -> street_number_cnpj;
   $city = @$data -> city_cnpj;
   $state = @$data -> state_cnpj;
   $tel = @$data -> tel;
   $cel = @$data -> cel;
   $code = @$data -> code;
 
-  if (empty($name) && empty($email) && empty($password) && empty($confirm_password) && empty($cnpj) && empty($insc_stad) && empty($cep) && empty($street) && empty($city) && empty($state) && empty($cel) && empty($code)) {
+  if (empty($name) && empty($email) && empty($password) && empty($confirm_password) && empty($cnpj) && empty($insc_stad) && empty($cep) && empty($street) && empty($city) && empty($state) && empty($cel) && empty($code) && empty($nickname) && empty($street_number)) {
     echo json_encode(array("status" => "error", "message" => true, "text" => "Preencha todos os campos"));
   }
   else if ($password != $confirm_password) {
@@ -66,8 +68,8 @@
         echo json_encode(array("status" => "error", "message" => true, "text" => "CNPJ já cadastrado"));
       }
       else {
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (name, email, password, cnpj, insc_stad, cep, street, city, state, tel, cel) VALUES ('$name', '$email', '$password', '$cnpj', '$insc_stad', '$cep', '$street', '$city', '$state', '$tel', '$cel')";
+        $password = md5($password);
+        $sql = "INSERT INTO users (name, nickname, email, password, cnpj, insc_stad, cep, street, street_number, city, state, tel, cel) VALUES ('$name', '$nickname', '$email', '$password', '$cnpj', '$insc_stad', '$cep', '$street', '$street_number', '$city', '$state', '$tel', '$cel')";
         $result = mysqli_query($con, $sql);
         if ($result) {
           echo json_encode(array("status" => "success", "message" => false, "text" => "Cadastro realizado com sucesso"));

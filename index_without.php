@@ -39,6 +39,20 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="nickname">Apelido *</label><br>
+            <div class="input-container">
+              <i class="fa fa-address-card icon"></i>
+              <input 
+                class="input-field" 
+                type="text" 
+                placeholder="ex: José" 
+                id="nickname" 
+                name="nickname"
+                required
+              >
+            </div>
+          </div>
+          <div class="form-group">
             <label for="email">E-mail *</label><br>
             <div class="input-container">
               <i class="fa fa-envelope icon"></i>
@@ -193,9 +207,23 @@
               <input 
                 class="input-field" 
                 type="text" 
-                placeholder="ex: Rua do Limoeiro 88" 
+                placeholder="ex: Rua do Limoeiro" 
                 id="street" 
                 name="street"
+                required
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="street_number">Número *</label><br>
+            <div class="input-container">
+              <i class="fa-solid fa-lock icon"></i>
+              <input 
+                class="input-field" 
+                type="number" 
+                placeholder="ex: 88" 
+                id="street_number" 
+                name="street_number"
                 required
               >
             </div>
@@ -298,6 +326,20 @@
                 placeholder="ex: Rua do Limoeiro 88" 
                 id="street_cnpj" 
                 name="street_cnpj"
+                required
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="street_number">Número *</label><br>
+            <div class="input-container">
+              <i class="fa-solid fa-lock icon"></i>
+              <input 
+                class="input-field" 
+                type="number" 
+                placeholder="ex: 88" 
+                id="street_number_cnpj" 
+                name="street_number_cnpj"
                 required
               >
             </div>
