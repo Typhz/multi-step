@@ -269,7 +269,7 @@ function changeStep(btn) {
       }
     }
     else if (index === 3){
-      if (telCel.value === "" || code.value === ""){
+      if (telCel.value === ""){
         errorGenerator("Preencha todos os campos");
       } else if (telCel.value.replace(/[^\d]+/g, '').length !== 11){
         errorGenerator("Telefone celular inválido");
@@ -281,7 +281,7 @@ function changeStep(btn) {
           inputs.push({ name, value, checked });
         });
         if (getUserType() === "pessoa_fisica"){
-          fetch(`${base_url}/php/controller/register_cpf.php`, {
+          fetch(`${base_url}/php/controller/register_cpf_without.php`, {
             method: "POST",
             body: JSON.stringify({
               name: name.value,
@@ -314,7 +314,7 @@ function changeStep(btn) {
           .catch(error => console.log(error));
         }
         else if (getUserType() === "pessoa_juridica"){
-          fetch(`${base_url}/php/controller/register_cnpj.php`, {
+          fetch(`${base_url}/php/controller/register_cnpj_without.php`, {
             method: "POST",
             body: JSON.stringify({
               name: name.value,
